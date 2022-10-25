@@ -2,19 +2,19 @@ package main
 
 import "fmt"
 
-
 func main() {
-	cards := newDeck()
-	cards.print()
-	hand, cards := deal(cards, 2)
-	fmt.Println("Hand")
-	hand.print()
-	fmt.Println("Remaining deck")
-	cards.print()
-	cards.saveToFile("cards.csv")
-	newCards := newDeckFromFile("cards.csv")
-	newCards.print()	
-	fmt.Println("Shufling cards...")
-	newCards.shuffle()
-	newCards.print()
+	// var colors map[string]string
+	// colors := map[string]string {
+	//	"red": "#ff0000",
+	//	"white": "#ffffff"
+	//}
+	colors := make(map[string]string)
+
+	colors["white"] = "#ffffff"
+	colors["red"] = "#ff0000"
+	fmt.Println(colors["white"])
+	fmt.Printf("%+v\n", colors)
+	delete(colors, "red")
+	fmt.Printf("%+v\n", colors)
+
 }
