@@ -1,24 +1,38 @@
 package main
 
 import (
-	"math/rand"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
 	"time"
 )
 
-type deck []string
+type card struct {
+	suit string
+	value string
+}
+
+func (c card) toString() string {
+	return c.value + " of " + c.suit 
+}
+
+func (c card) print() {
+	fmt.Println(c.toString());
+}
+
+
+type deck []card
 
 func newDeck() deck {
-	cards :=deck{} // slice
+	cards := deck{} // slice
 	suits := []string{"Spades", "Hearts"}
 	values := []string{"One", "Two", "Three"}
 
-	for _, suit := range suits {
-		for _, value := range values {
-			cards = append(cards, value + " of " + suit )
+	for _, s := range suits {
+		for _, v := range values {
+			cards = append(cards, card{ value: v, suit: s } )
 		}
 	}
 	return cards
@@ -26,7 +40,7 @@ func newDeck() deck {
 
 func (d deck) print() {
 	for i, card := range d {
-		fmt.Println(i, card)
+		fmt.Println(i, card.toString())
 	}
 }
 
@@ -35,7 +49,11 @@ func deal(d deck, handSize int) (deck, deck) {
 }
 
 func (d deck) toString() string {
-	return strings.Join([]string(d), ", ")
+	var ds []string
+	for _, c := range d {
+		ds = append(ds, c.toString())
+	}
+	return strings.Join(ds, ", ")
 }
 
 func (d deck) saveToFile(filename string) error {
@@ -43,13 +61,18 @@ func (d deck) saveToFile(filename string) error {
 }  
 
 func newDeckFromFile(filename string) deck {
-	d, err := ioutil.ReadFile(filename)
+	s, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println("Error: " + err.Error() )
 		os.Exit(1);
 	}
-	s := strings.Split(string(d), ", ")
-	return deck(s)
+	ss := strings.Split(string(s), ", ")
+	var d deck
+	for _, cs := range ss {
+		v := strings.Split( cs, " of ")
+		d = append(d, card{ value: v[0], suit: v[1] })
+	}
+	return d
 }
 
 func (d deck) shuffle() {

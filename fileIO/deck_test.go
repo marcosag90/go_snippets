@@ -16,11 +16,11 @@ func TestNewDeck(t *testing.T) {
 		t.Errorf("Expected deck lenght of %d, bug got %d", s*v, len(d))
 	}
 
-	if d[0] != "One of Spades" {
+	if d[0].toString() != "One of Spades" {
 		t.Errorf("Expected first card to be One of Spades but got %s", d[0])
 	}
 
-	if d[len(d)-1] != "Three of Hearts" {
+	if d[len(d)-1].toString() != "Three of Hearts" {
 		t.Errorf("Expected last card to be Three of Hearts but got %s", d[len(d)-1])
 	}
 }
@@ -48,11 +48,11 @@ func TestLoadDeckFromFile(t *testing.T) {
 		t.Errorf("Expected deck lenght of %d, bug got %d", s*v, len(d))
 	}
 
-	if d[0] != "One of Spades" {
+	if d[0].toString() != "One of Spades" {
 		t.Errorf("Expected first card to be One of Spades but got %s", d[0])
 	}
 
-	if d[len(d)-1] != "Three of Hearts" {
+	if d[len(d)-1].toString() != "Three of Hearts" {
 		t.Errorf("Expected last card to be Three of Hearts but got %s", d[len(d)-1])
 	}
 	os.Remove("_decktesting")
